@@ -48,7 +48,7 @@ echo "======================================"
 sudo apt-get update
 
 sudo apt-get install -y \
-    gcc-aarch64-linux-{gcc,g++,binutils} \
+    {gcc,g++,binutils}-aarch64-linux-gnu \
     build-essential gcc g++ gperf bison flex texinfo help2man \
     make libncurses-dev python3-dev autoconf automake libtool \
     libtool-bin gawk wget curl bzip2 xz-utils unzip patch rsync \
