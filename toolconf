@@ -159,7 +159,8 @@ CT_ARCH_SUFFIX=""
 #
 # Generic target options
 #
-CT_MULTILIB=y
+# CT_MULTILIB is not set
+CT_DEMULTILIB=y
 CT_ARCH_USE_MMU=y
 CT_ARCH_SUPPORTS_LIBSANITIZER=y
 CT_ARCH_SUPPORTS_EITHER_ENDIAN=y
@@ -283,12 +284,12 @@ CT_LINUX_PATCH_ORDER="global"
 # CT_LINUX_V_5_18 is not set
 # CT_LINUX_V_5_17 is not set
 # CT_LINUX_V_5_16 is not set
-# CT_LINUX_V_5_15 is not set
+CT_LINUX_V_5_15=y
 # CT_LINUX_V_5_14 is not set
 # CT_LINUX_V_5_13 is not set
 # CT_LINUX_V_5_12 is not set
 # CT_LINUX_V_5_11 is not set
-CT_LINUX_V_5_10=y
+# CT_LINUX_V_5_10 is not set
 # CT_LINUX_V_5_9 is not set
 # CT_LINUX_V_5_8 is not set
 # CT_LINUX_V_5_7 is not set
@@ -308,7 +309,7 @@ CT_LINUX_V_5_10=y
 # CT_LINUX_V_3_4 is not set
 # CT_LINUX_V_3_2 is not set
 # CT_LINUX_V_2_6_32 is not set
-CT_LINUX_VERSION="5.10.258"
+CT_LINUX_VERSION="5.15.209"
 CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
 CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -316,8 +317,8 @@ CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_LINUX_SIGNATURE_FORMAT="unpacked/.sign"
 CT_LINUX_5_19_or_older=y
 CT_LINUX_older_than_5_19=y
-CT_LINUX_5_12_or_older=y
-CT_LINUX_older_than_5_12=y
+CT_LINUX_later_than_5_12=y
+CT_LINUX_5_12_or_later=y
 CT_LINUX_later_than_5_5=y
 CT_LINUX_5_5_or_later=y
 CT_LINUX_later_than_5_3=y
@@ -566,7 +567,6 @@ CT_CC_GCC_HAS_LIBMPX=y
 CT_CC_GCC_ENABLE_CXX_FLAGS=""
 CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY=""
 CT_CC_GCC_EXTRA_CONFIG_ARRAY=""
-CT_CC_GCC_MULTILIB_LIST="m2,m2e,m4,m4-single,m4-single-only,m2a,m2a-single"
 CT_CC_GCC_STATIC_LIBSTDCXX=y
 # CT_CC_GCC_SYSTEM_ZLIB is not set
 CT_CC_GCC_CONFIG_TLS=m
