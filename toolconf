@@ -83,7 +83,7 @@ CT_VERIFY_DOWNLOAD_DIGEST_ALG="sha256"
 #
 # CT_FORCE_EXTRACT is not set
 CT_OVERRIDE_CONFIG_GUESS_SUB=y
-# CT_ONLY_EXTRACT is not set
+CT_ONLY_EXTRACT=y
 CT_PATCH_BUNDLED=y
 # CT_PATCH_BUNDLED_LOCAL is not set
 CT_PATCH_ORDER="bundled"
@@ -111,12 +111,11 @@ CT_CONFIG_SHELL="${bash}"
 # CT_LOG_ERROR is not set
 # CT_LOG_WARN is not set
 # CT_LOG_INFO is not set
-CT_LOG_EXTRA=y
-# CT_LOG_ALL is not set
+# CT_LOG_EXTRA is not set
+CT_LOG_ALL=y
 # CT_LOG_DEBUG is not set
-CT_LOG_LEVEL_MAX="EXTRA"
+CT_LOG_LEVEL_MAX="ALL"
 # CT_LOG_SEE_TOOLS_WARN is not set
-# CT_LOG_PROGRESS_BAR is not set
 CT_LOG_TO_FILE=y
 CT_LOG_FILE_COMPRESS=y
 # end of Paths and misc options
@@ -627,7 +626,7 @@ CT_CC_CXA_ATEXIT=y
 CT_CC_GCC_TM_CLONE_REGISTRY=m
 # CT_CC_GCC_DISABLE_PCH is not set
 CT_CC_GCC_SJLJ_EXCEPTIONS=m
-CT_CC_GCC_LDBL_128=m
+# CT_CC_GCC_LDBL_128 is not set
 # CT_CC_GCC_BUILD_ID is not set
 CT_CC_GCC_LNK_HASH_STYLE_DEFAULT=y
 # CT_CC_GCC_LNK_HASH_STYLE_SYSV is not set
@@ -663,67 +662,9 @@ CT_ALL_LINKER_CHOICES="MOLD"
 # Debug facilities
 #
 # CT_DEBUG_DUMA is not set
-CT_DEBUG_GDB=y
-CT_DEBUG_GDB_PKG_KSYM="GDB"
-CT_GDB_DIR_NAME="gdb"
-CT_GDB_PKG_NAME="gdb"
-CT_GDB_SRC_RELEASE=y
-# CT_GDB_SRC_DEVEL is not set
-CT_GDB_PATCH_ORDER="global"
-CT_GDB_V_17=y
-# CT_GDB_V_16 is not set
-# CT_GDB_V_15 is not set
-# CT_GDB_V_14 is not set
-# CT_GDB_V_13 is not set
-# CT_GDB_V_12 is not set
-# CT_GDB_V_11 is not set
-# CT_GDB_V_10 is not set
-# CT_GDB_V_9 is not set
-# CT_GDB_V_8_3 is not set
-CT_GDB_VERSION="17.2"
-CT_GDB_MIRRORS="$(CT_Mirrors GNU gdb) $(CT_Mirrors sourceware gdb/releases)"
-CT_GDB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
-CT_GDB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
-CT_GDB_ARCHIVE_FORMATS=".tar.xz .tar.gz"
-CT_GDB_SIGNATURE_FORMAT=""
-CT_GDB_later_than_16=y
-CT_GDB_16_or_later=y
-CT_GDB_later_than_15=y
-CT_GDB_15_or_later=y
-CT_GDB_later_than_14=y
-CT_GDB_14_or_later=y
-CT_GDB_later_than_13=y
-CT_GDB_13_or_later=y
-CT_GDB_later_than_12=y
-CT_GDB_12_or_later=y
-CT_GDB_later_than_11=y
-CT_GDB_11_or_later=y
-CT_GDB_later_than_10=y
-CT_GDB_10_or_later=y
-CT_GDB_later_than_8_3=y
-CT_GDB_8_3_or_later=y
-# CT_GDB_CROSS is not set
-# CT_GDB_NATIVE is not set
-CT_GDB_GDBSERVER=y
-# CT_GDB_NATIVE_STATIC_LIBSTDCXX is not set
-CT_GDB_GDBSERVER_TOPLEVEL=y
-CT_GDB_CC_LD_LIBTOOL=y
+# CT_DEBUG_GDB is not set
 # CT_DEBUG_LTRACE is not set
-CT_DEBUG_STRACE=y
-CT_DEBUG_STRACE_PKG_KSYM="STRACE"
-CT_STRACE_DIR_NAME="strace"
-CT_STRACE_PKG_NAME="strace"
-CT_STRACE_SRC_RELEASE=y
-# CT_STRACE_SRC_DEVEL is not set
-CT_STRACE_PATCH_ORDER="global"
-CT_STRACE_V_7_1=y
-# CT_STRACE_V_6_16 is not set
-CT_STRACE_VERSION="7.1"
-CT_STRACE_MIRRORS="https://strace.io/files/${CT_STRACE_VERSION} https://github.com/strace/strace/releases/download/v${CT_STRACE_VERSION}"
-CT_STRACE_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
-CT_STRACE_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
-CT_STRACE_ARCHIVE_FORMATS=".tar.xz"
-CT_STRACE_SIGNATURE_FORMAT=""
+# CT_DEBUG_STRACE is not set
 CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
 # end of Debug facilities
 
