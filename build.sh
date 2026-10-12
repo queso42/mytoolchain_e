@@ -54,6 +54,15 @@ sudo apt-get install -y \
     libtool-bin gawk wget curl bzip2 xz-utils unzip patch rsync \
     meson ninja-build ca-certificates
 
+# crosstool-NG's canadian build needs the aarch64 host cross-compiler
+# on PATH before it starts; fail early instead of 2 hours in.
+for tool in aarch64-linux-gnu-gcc aarch64-linux-gnu-g++ aarch64-linux-gnu-ld; do
+    command -v "$tool" >/dev/null || {
+        echo "Missing host cross tool: $tool" >&2
+        exit 1
+    }
+done
+
 # --------------------------------------------------
 # Build crosstool-NG
 # --------------------------------------------------

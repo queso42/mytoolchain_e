@@ -2,12 +2,21 @@ name: Build Toolchain
 
 on:
   workflow_dispatch:
+  # Any branch push that touches these files builds that exact commit.
   push:
-    tags: ["v*"]
+    branches: ["**"]
     paths:
       - "build.sh"
       - "toolconf"
       - ".github/workflows/toolchain.yml"
+    # Path filters are not applied to tag pushes; v* tags always build
+    # and are the only trigger that creates a release (last step).
+    tags: ["v*"]
+
+# A newer push to the same ref cancels the older, still-running build.
+concurrency:
+  group: toolchain-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -22,15 +31,19 @@ jobs:
       - name: Checkout toolchain repository
         uses: actions/checkout@v4
 
-      - name: Cache source tarballs
-        uses: actions/cache@v4
-        with:
-          path: ~/src
-          key: ctng-src-${{ hashFiles('toolconf') }}
-          restore-keys: ctng-src-
-
       - name: Build toolchain
         run: bash ./build.sh
+
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            work/build/build.log*
+            work/crosstool-ng-*/config.log
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Upload toolchain artifact
         uses: actions/upload-artifact@v4
