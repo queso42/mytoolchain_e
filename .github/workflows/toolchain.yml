@@ -31,8 +31,46 @@ jobs:
       - name: Checkout toolchain repository
         uses: actions/checkout@v4
 
+      - name: Restore source tarball cache
+        id: src-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/src
+          key: src-${{ runner.os }}-${{ hashFiles('toolconf') }}
+          restore-keys: |
+            src-${{ runner.os }}-
+
       - name: Build toolchain
         run: bash ./build.sh
+
+      # Save even if the build failed, so downloads aren't repeated.
+      - name: Save source tarball cache
+        if: always() && steps.src-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/src
+          key: src-${{ runner.os }}-${{ hashFiles('toolconf') }}
+
+      - name: Convert hardlinks to symlinks
+        run: |
+          python3 - <<'PY'
+          import os
+          seen = {}
+          for d, _, files in os.walk("uptoolchain"):
+              for f in sorted(files):
+                  p = os.path.join(d, f)
+                  if os.path.islink(p):
+                      continue
+                  st = os.lstat(p)
+                  if st.st_nlink < 2:
+                      continue
+                  key = (st.st_dev, st.st_ino)
+                  if key not in seen:
+                      seen[key] = p
+                      continue
+                  os.remove(p)
+                  os.symlink(os.path.relpath(seen[key], d), p)
+          PY
 
       - name: Upload build logs on failure
         if: failure()
