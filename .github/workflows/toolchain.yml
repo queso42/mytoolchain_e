@@ -9,9 +9,6 @@ on:
       - "build.sh"
       - "toolconf"
       - ".github/workflows/toolchain.yml"
-    # Path filters are not applied to tag pushes; v* tags always build
-    # and are the only trigger that creates a release (last step).
-    tags: ["v*"]
 
 # A newer push to the same ref cancels the older, still-running build.
 concurrency:
@@ -19,12 +16,12 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
     name: Build cross toolchain
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 180
 
     steps:
@@ -43,9 +40,11 @@ jobs:
       - name: Build toolchain
         run: bash ./build.sh
 
-      # Save even if the build failed, so downloads aren't repeated.
+      # Only save after a successful build: caches are immutable per key, so
+      # saving a half-downloaded ~/src from a failed run would poison this
+      # key until toolconf changes.
       - name: Save source tarball cache
-        if: always() && steps.src-cache.outputs.cache-hit != 'true'
+        if: success() && steps.src-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: ~/src
@@ -56,7 +55,8 @@ jobs:
           python3 - <<'PY'
           import os
           seen = {}
-          for d, _, files in os.walk("uptoolchain"):
+          for d, dirs, files in os.walk("uptoolchain"):
+              dirs.sort()  # deterministic choice of the "primary" file
               for f in sorted(files):
                   p = os.path.join(d, f)
                   if os.path.islink(p):
@@ -72,6 +72,16 @@ jobs:
                   os.symlink(os.path.relpath(seen[key], d), p)
           PY
 
+      # upload-artifact drops permissions and follows symlinks, which would
+      # undo the step above and strip exec bits. A tarball keeps both.
+      - name: Package toolchain
+        run: |
+          name="uptoolchain-${GITHUB_REF_NAME//\//-}"
+          mkdir -p dist
+          tar -C uptoolchain -cf - . | xz -T0 -6 > "dist/${name}.tar.xz"
+          (cd dist && sha256sum "${name}.tar.xz" > "${name}.tar.xz.sha256")
+          ls -lh dist
+
       - name: Upload build logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -81,18 +91,13 @@ jobs:
             work/build/build.log*
             work/crosstool-ng-*/config.log
           if-no-files-found: ignore
-          retention-days: 14
+          retention-days: 5
 
       - name: Upload toolchain artifact
         uses: actions/upload-artifact@v4
         with:
           name: uptoolchain
-          path: uptoolchain/
+          path: dist/
+          compression-level: 0   # already xz-compressed
           if-no-files-found: error
-          retention-days: 14
-
-      - name: Attach to release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: uptoolchain/*
+          retention-days: 5
