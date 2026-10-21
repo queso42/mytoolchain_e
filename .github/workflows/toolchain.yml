@@ -8,6 +8,7 @@ on:
     paths:
       - "build.sh"
       - "toolconf"
+      - "tar_hard2sym.py"
       - ".github/workflows/toolchain.yml"
 
 # A newer push to the same ref cancels the older, still-running build.
@@ -50,35 +51,16 @@ jobs:
           path: ~/src
           key: src-${{ runner.os }}-${{ hashFiles('toolconf') }}
 
-      - name: Convert hardlinks to symlinks
-        run: |
-          python3 - <<'PY'
-          import os
-          seen = {}
-          for d, dirs, files in os.walk("uptoolchain"):
-              dirs.sort()  # deterministic choice of the "primary" file
-              for f in sorted(files):
-                  p = os.path.join(d, f)
-                  if os.path.islink(p):
-                      continue
-                  st = os.lstat(p)
-                  if st.st_nlink < 2:
-                      continue
-                  key = (st.st_dev, st.st_ino)
-                  if key not in seen:
-                      seen[key] = p
-                      continue
-                  os.remove(p)
-                  os.symlink(os.path.relpath(seen[key], d), p)
-          PY
-
-      # upload-artifact drops permissions and follows symlinks, which would
-      # undo the step above and strip exec bits. A tarball keeps both.
+      # upload-artifact drops permissions and follows symlinks, so ship a
+      # tarball. tar_hard2sym.py rewrites hardlink entries as relative
+      # symlinks while streaming, and writes the only archive in dist/.
       - name: Package toolchain
         run: |
           name="uptoolchain-${GITHUB_REF_NAME//\//-}"
           mkdir -p dist
-          tar -C uptoolchain -cf - . | xz -T0 -6 > "dist/${name}.tar.xz"
+          tar -C uptoolchain -cf "$RUNNER_TEMP/raw.tar" .
+          python3 tar_hard2sym.py "$RUNNER_TEMP/raw.tar" "dist/${name}.tar.xz"
+          rm -f "$RUNNER_TEMP/raw.tar"
           (cd dist && sha256sum "${name}.tar.xz" > "${name}.tar.xz.sha256")
           ls -lh dist
 
