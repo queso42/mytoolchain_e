@@ -32,6 +32,10 @@ def convert(src_path, dst_path):
                 m.type = tarfile.SYMTYPE
                 m.linkname = posixpath.relpath(target, link_dir)
                 m.size = 0
+                # Stale pax records from the source (long linkpath, size)
+                # would override the rewritten values in the output.
+                m.pax_headers.pop("linkpath", None)
+                m.pax_headers.pop("size", None)
                 dst.addfile(m)
                 count += 1
             elif m.isreg():

@@ -52,15 +52,22 @@ jobs:
           key: src-${{ runner.os }}-${{ hashFiles('toolconf') }}
 
       # upload-artifact drops permissions and follows symlinks, so ship a
-      # tarball. tar_hard2sym.py rewrites hardlink entries as relative
-      # symlinks while streaming, and writes the only archive in dist/.
+      # tarball. build.sh already packed the toolchain into uptoolchain/;
+      # tar_hard2sym.py rewrites the hardlink entries *inside that archive*
+      # as relative symlinks while streaming, and writes the only archive
+      # in dist/. (Re-wrapping it in another tar would hide the hardlinks.)
       - name: Package toolchain
         run: |
           name="uptoolchain-${GITHUB_REF_NAME//\//-}"
+          shopt -s nullglob
+          inner=(uptoolchain/*.tar.xz)
+          if [ "${#inner[@]}" -ne 1 ]; then
+            echo "Expected one toolchain tarball in uptoolchain/, found ${#inner[@]}" >&2
+            exit 1
+          fi
           mkdir -p dist
-          tar -C uptoolchain -cf "$RUNNER_TEMP/raw.tar" .
-          python3 tar_hard2sym.py "$RUNNER_TEMP/raw.tar" "dist/${name}.tar.xz"
-          rm -f "$RUNNER_TEMP/raw.tar"
+          python3 tar_hard2sym.py "${inner[0]}" "dist/${name}.tar.xz"
+          cp uptoolchain/toolconf dist/toolconf
           (cd dist && sha256sum "${name}.tar.xz" > "${name}.tar.xz.sha256")
           ls -lh dist
 

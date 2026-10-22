@@ -22,7 +22,7 @@ if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
 fi
 
 TARBALL="crosstool-ng-${VERSION}.tar.xz"
-URL="http://crosstool-ng.org/download/crosstool-ng/${TARBALL}"
+URL="https://crosstool-ng.org/download/crosstool-ng/${TARBALL}"
 NAME="$(basename "$ROOT")"
 
 WORK="$ROOT/work"
@@ -99,6 +99,8 @@ export PATH="$CTNG_PREFIX/bin:$PATH"
 
 echo "Installing toolchain configuration..."
 
+# crosstool-NG leaves its install tree read-only; let a rerun clean it.
+chmod -R u+w "$BUILD" "$OUT" 2>/dev/null || true
 rm -rf "$BUILD" "$OUT"
 mkdir -p "$BUILD" "$HOME/src"
 
