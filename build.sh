@@ -22,7 +22,7 @@ if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
 fi
 
 TARBALL="crosstool-ng-${VERSION}.tar.xz"
-URL="https://crosstool-ng.org/download/crosstool-ng/${TARBALL}"
+URL="http://crosstool-ng.org/download/crosstool-ng/${TARBALL}"
 NAME="$(basename "$ROOT")"
 
 WORK="$ROOT/work"
@@ -48,20 +48,10 @@ echo "======================================"
 sudo apt-get update
 
 sudo apt-get install -y \
-    {gcc,g++,binutils}-aarch64-linux-gnu \
     build-essential gcc g++ gperf bison flex texinfo help2man \
     make libncurses-dev python3-dev autoconf automake libtool \
     libtool-bin gawk wget curl bzip2 xz-utils unzip patch rsync \
     meson ninja-build ca-certificates
-
-# crosstool-NG's canadian build needs the aarch64 host cross-compiler
-# on PATH before it starts; fail early instead of 2 hours in.
-for tool in aarch64-linux-gnu-gcc aarch64-linux-gnu-g++ aarch64-linux-gnu-ld; do
-    command -v "$tool" >/dev/null || {
-        echo "Missing host cross tool: $tool" >&2
-        exit 1
-    }
-done
 
 # --------------------------------------------------
 # Build crosstool-NG
@@ -71,9 +61,12 @@ mkdir -p "$WORK"
 
 echo "Downloading crosstool-NG..."
 
-curl --fail --location --retry 3 \
-    "$URL" \
-    --output "$ARCHIVE"
+# who knows it might be a fallback?
+#curl --fail --location --retry 3 \
+#    "$URL" \
+#    --output "$ARCHIVE"
+
+wget --tries=3 --output-document="$ARCHIVE" "$URL"
 
 echo "Extracting crosstool-NG..."
 
