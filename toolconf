@@ -364,10 +364,10 @@ CT_BINUTILS_PKG_NAME="binutils"
 CT_BINUTILS_SRC_RELEASE=y
 # CT_BINUTILS_SRC_DEVEL is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_47=y
+# CT_BINUTILS_V_2_47 is not set
 # CT_BINUTILS_V_2_46 is not set
 # CT_BINUTILS_V_2_45 is not set
-# CT_BINUTILS_V_2_44 is not set
+CT_BINUTILS_V_2_44=y
 # CT_BINUTILS_V_2_43 is not set
 # CT_BINUTILS_V_2_42 is not set
 # CT_BINUTILS_V_2_41 is not set
@@ -386,20 +386,20 @@ CT_BINUTILS_V_2_47=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.47"
+CT_BINUTILS_VERSION="2.44"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
-CT_BINUTILS_2_47_or_later=y
 CT_BINUTILS_2_47_or_older=y
-CT_BINUTILS_later_than_2_46_0=y
-CT_BINUTILS_2_46_0_or_later=y
-CT_BINUTILS_later_than_2_45=y
-CT_BINUTILS_2_45_or_later=y
-CT_BINUTILS_later_than_2_44=y
+CT_BINUTILS_older_than_2_47=y
+CT_BINUTILS_2_46_0_or_older=y
+CT_BINUTILS_older_than_2_46_0=y
+CT_BINUTILS_2_45_or_older=y
+CT_BINUTILS_older_than_2_45=y
 CT_BINUTILS_2_44_or_later=y
+CT_BINUTILS_2_44_or_older=y
 CT_BINUTILS_later_than_2_41=y
 CT_BINUTILS_2_41_or_later=y
 CT_BINUTILS_later_than_2_39=y
