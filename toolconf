@@ -358,14 +358,14 @@ CT_BINUTILS_SRC_RELEASE=y
 CT_BINUTILS_PATCH_ORDER="global"
 # CT_BINUTILS_V_2_47 is not set
 # CT_BINUTILS_V_2_46 is not set
-# CT_BINUTILS_V_2_45 is not set
-CT_BINUTILS_V_2_44=y
+CT_BINUTILS_V_2_45=y
+# CT_BINUTILS_V_2_44 is not set
 # CT_BINUTILS_V_2_43 is not set
 # CT_BINUTILS_V_2_42 is not set
 # CT_BINUTILS_V_2_41 is not set
 # CT_BINUTILS_V_2_40 is not set
 # CT_BINUTILS_V_2_39 is not set
-CT_BINUTILS_VERSION="2.44"
+CT_BINUTILS_VERSION="2.45"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -375,10 +375,10 @@ CT_BINUTILS_2_47_or_older=y
 CT_BINUTILS_older_than_2_47=y
 CT_BINUTILS_2_46_0_or_older=y
 CT_BINUTILS_older_than_2_46_0=y
+CT_BINUTILS_2_45_or_later=y
 CT_BINUTILS_2_45_or_older=y
-CT_BINUTILS_older_than_2_45=y
+CT_BINUTILS_later_than_2_44=y
 CT_BINUTILS_2_44_or_later=y
-CT_BINUTILS_2_44_or_older=y
 CT_BINUTILS_later_than_2_41=y
 CT_BINUTILS_2_41_or_later=y
 CT_BINUTILS_later_than_2_39=y
@@ -572,19 +572,19 @@ CT_GCC_PKG_NAME="gcc"
 CT_GCC_SRC_RELEASE=y
 # CT_GCC_SRC_DEVEL is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_16=y
-# CT_GCC_V_15 is not set
+# CT_GCC_V_16 is not set
+CT_GCC_V_15=y
 # CT_GCC_V_14 is not set
 # CT_GCC_V_13 is not set
 # CT_GCC_V_12 is not set
-CT_GCC_VERSION="16.2.0"
+CT_GCC_VERSION="15.3.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
-CT_GCC_later_than_16=y
-CT_GCC_16_or_later=y
+CT_GCC_16_or_older=y
+CT_GCC_older_than_16=y
 CT_GCC_later_than_15=y
 CT_GCC_15_or_later=y
 CT_GCC_later_than_14=y
@@ -620,7 +620,7 @@ CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY=""
 CT_CC_GCC_EXTRA_CONFIG_ARRAY=""
 CT_CC_GCC_STATIC_LIBSTDCXX=y
 # CT_CC_GCC_SYSTEM_ZLIB is not set
-CT_CC_GCC_CONFIG_TLS=m
+CT_CC_GCC_CONFIG_TLS=y
 
 #
 # Optimisation features
@@ -633,7 +633,7 @@ CT_CC_GCC_LTO_ZSTD=m
 # Settings for libraries running on target
 #
 # CT_CC_GCC_ENABLE_DEFAULT_PIE is not set
-CT_CC_GCC_ENABLE_TARGET_OPTSPACE=y
+# CT_CC_GCC_ENABLE_TARGET_OPTSPACE is not set
 CT_CC_GCC_LIBSTDCXX=m
 # CT_CC_GCC_LIBSTDCXX_HOSTED_DISABLE is not set
 CT_CC_GCC_LIBSTDCXX_TARGET_CXXFLAGS=""
@@ -642,7 +642,7 @@ CT_CC_GCC_LIBSTDCXX_TARGET_CXXFLAGS=""
 # CT_CC_GCC_LIBSSP is not set
 # CT_CC_GCC_LIBQUADMATH is not set
 # CT_CC_GCC_LIBSANITIZER is not set
-CT_CC_GCC_LIBMPX=y
+# CT_CC_GCC_LIBMPX is not set
 CT_CC_GCC_LIBSTDCXX_VERBOSE=m
 
 #
@@ -651,14 +651,14 @@ CT_CC_GCC_LIBSTDCXX_VERBOSE=m
 CT_CC_CXA_ATEXIT=y
 CT_CC_GCC_TM_CLONE_REGISTRY=m
 # CT_CC_GCC_DISABLE_PCH is not set
-CT_CC_GCC_SJLJ_EXCEPTIONS=m
-CT_CC_GCC_LDBL_128=m
+# CT_CC_GCC_SJLJ_EXCEPTIONS is not set
+# CT_CC_GCC_LDBL_128 is not set
 # CT_CC_GCC_BUILD_ID is not set
-CT_CC_GCC_LNK_HASH_STYLE_DEFAULT=y
+# CT_CC_GCC_LNK_HASH_STYLE_DEFAULT is not set
 # CT_CC_GCC_LNK_HASH_STYLE_SYSV is not set
-# CT_CC_GCC_LNK_HASH_STYLE_GNU is not set
+CT_CC_GCC_LNK_HASH_STYLE_GNU=y
 # CT_CC_GCC_LNK_HASH_STYLE_BOTH is not set
-CT_CC_GCC_LNK_HASH_STYLE=""
+CT_CC_GCC_LNK_HASH_STYLE="gnu"
 CT_CC_GCC_DEC_FLOATS_AUTO=y
 # CT_CC_GCC_DEC_FLOATS_BID is not set
 # CT_CC_GCC_DEC_FLOATS_DPD is not set
