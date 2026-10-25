@@ -530,8 +530,8 @@ CT_GCC_PKG_NAME="gcc"
 CT_GCC_SRC_RELEASE=y
 # CT_GCC_SRC_DEVEL is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_16=y
-# CT_GCC_V_15 is not set
+# CT_GCC_V_16 is not set
+CT_GCC_V_15=y
 # CT_GCC_V_14 is not set
 # CT_GCC_V_13 is not set
 # CT_GCC_V_12 is not set
@@ -543,14 +543,14 @@ CT_GCC_V_16=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="16.2.0"
+CT_GCC_VERSION="15.3.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
-CT_GCC_later_than_16=y
-CT_GCC_16_or_later=y
+CT_GCC_16_or_older=y
+CT_GCC_older_than_16=y
 CT_GCC_later_than_15=y
 CT_GCC_15_or_later=y
 CT_GCC_later_than_14=y
@@ -587,7 +587,7 @@ CT_CC_GCC_CONFIG_TLS=m
 #
 # Optimisation features
 #
-# CT_CC_GCC_USE_GRAPHITE is not set
+CT_CC_GCC_USE_GRAPHITE=y
 # CT_CC_GCC_USE_LTO is not set
 
 #
@@ -677,7 +677,36 @@ CT_GMP_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2"
 CT_GMP_SIGNATURE_FORMAT="packed/.sig"
 CT_GMP_EXTRA_CFLAGS="-std=gnu17"
-# CT_COMP_LIBS_ISL is not set
+CT_COMP_LIBS_ISL=y
+CT_COMP_LIBS_ISL_PKG_KSYM="ISL"
+CT_ISL_DIR_NAME="isl"
+CT_ISL_PKG_NAME="isl"
+CT_ISL_SRC_RELEASE=y
+# CT_ISL_SRC_DEVEL is not set
+CT_ISL_PATCH_ORDER="global"
+CT_ISL_V_0_27=y
+# CT_ISL_V_0_26 is not set
+# CT_ISL_V_0_25 is not set
+# CT_ISL_V_0_24 is not set
+# CT_ISL_V_0_23 is not set
+# CT_ISL_V_0_22 is not set
+# CT_ISL_V_0_21 is not set
+# CT_ISL_V_0_20 is not set
+# CT_ISL_V_0_19 is not set
+# CT_ISL_V_0_18 is not set
+# CT_ISL_V_0_17 is not set
+# CT_ISL_V_0_16 is not set
+# CT_ISL_V_0_15 is not set
+CT_ISL_VERSION="0.27"
+CT_ISL_MIRRORS="https://libisl.sourceforge.io"
+CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_ISL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_ISL_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
+CT_ISL_SIGNATURE_FORMAT=""
+CT_ISL_later_than_0_18=y
+CT_ISL_0_18_or_later=y
+CT_ISL_later_than_0_15=y
+CT_ISL_0_15_or_later=y
 # CT_COMP_LIBS_LIBELF is not set
 # CT_COMP_LIBS_LIBICONV is not set
 CT_COMP_LIBS_MPC=y
@@ -716,11 +745,13 @@ CT_ALL_COMP_LIBS_CHOICES="CLOOG EXPAT GETTEXT GMP GNUPRUMCU ISL LIBELF LIBICONV 
 # CT_GETTEXT_NEEDED is not set
 CT_GMP_NEEDED=y
 CT_MPFR_NEEDED=y
+CT_ISL_NEEDED=y
 CT_MPC_NEEDED=y
 # CT_ZLIB_NEEDED is not set
 # CT_ZSTD_NEEDED is not set
 CT_GMP=y
 CT_MPFR=y
+CT_ISL=y
 CT_MPC=y
 # end of Companion libraries
 
