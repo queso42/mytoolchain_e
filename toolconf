@@ -121,7 +121,7 @@ CT_LOG_EXTRA=y
 # CT_LOG_DEBUG is not set
 CT_LOG_LEVEL_MAX="EXTRA"
 # CT_LOG_SEE_TOOLS_WARN is not set
-CT_LOG_PROGRESS_BAR=y
+# CT_LOG_PROGRESS_BAR is not set
 CT_LOG_TO_FILE=y
 CT_LOG_FILE_COMPRESS=y
 # end of Paths and misc options
@@ -131,10 +131,10 @@ CT_LOG_FILE_COMPRESS=y
 #
 # CT_ARCH_ALPHA is not set
 # CT_ARCH_ARC is not set
-CT_ARCH_ARM=y
+# CT_ARCH_ARM is not set
 # CT_ARCH_AVR is not set
 # CT_ARCH_BPF is not set
-# CT_ARCH_M68K is not set
+CT_ARCH_M68K=y
 # CT_ARCH_MIPS is not set
 # CT_ARCH_NIOS2 is not set
 # CT_ARCH_POWERPC is not set
@@ -146,21 +146,15 @@ CT_ARCH_ARM=y
 # CT_ARCH_SPARC is not set
 # CT_ARCH_X86 is not set
 # CT_ARCH_XTENSA is not set
-CT_ARCH="arm"
-CT_ARCH_CHOICE_KSYM="ARM"
-CT_ARCH_CPU="arm926ej-s"
-CT_ARCH_ARM_SHOW=y
+CT_ARCH="m68k"
+CT_ARCH_CHOICE_KSYM="M68K"
+CT_ARCH_CPU="68040"
+CT_ARCH_M68K_SHOW=y
 
 #
-# Options for arm
+# Options for m68k
 #
-CT_ARCH_ARM_PKG_KSYM=""
-CT_ARCH_ARM_MODE="arm"
-CT_ARCH_ARM_MODE_ARM=y
-# CT_ARCH_ARM_MODE_THUMB is not set
-# CT_ARCH_ARM_INTERWORKING is not set
-CT_ARCH_ARM_EABI_FORCE=y
-CT_ARCH_ARM_EABI=y
+CT_ARCH_M68K_PKG_KSYM=""
 CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LM32 LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 OPENRISC PARISC POWERPC PRU RISCV RX S390 SH SPARC TRICORE X86 XTENSA"
 CT_ARCH_SUFFIX=""
 # CT_OMIT_TARGET_VENDOR is not set
@@ -170,41 +164,20 @@ CT_ARCH_SUFFIX=""
 #
 # CT_MULTILIB is not set
 CT_DEMULTILIB=y
-CT_ARCH_SUPPORTS_BOTH_MMU=y
-CT_ARCH_DEFAULT_HAS_MMU=y
 CT_ARCH_USE_MMU=y
 CT_ARCH_SUPPORTS_FLAT_FORMAT=y
-CT_ARCH_SUPPORTS_LIBSANITIZER=y
-CT_ARCH_SUPPORTS_EITHER_ENDIAN=y
-CT_ARCH_DEFAULT_LE=y
-# CT_ARCH_BE is not set
-CT_ARCH_LE=y
-CT_ARCH_ENDIAN="little"
+CT_ARCH_DEFAULT_BE=y
 CT_ARCH_SUPPORTS_32=y
-CT_ARCH_SUPPORTS_64=y
 CT_ARCH_DEFAULT_32=y
 CT_ARCH_BITNESS=32
 CT_ARCH_32=y
-# CT_ARCH_64 is not set
 
 #
 # Target optimisations
 #
-CT_ARCH_SUPPORTS_WITH_ARCH=y
 CT_ARCH_SUPPORTS_WITH_CPU=y
-CT_ARCH_SUPPORTS_WITH_TUNE=y
-CT_ARCH_SUPPORTS_WITH_FLOAT=y
-CT_ARCH_SUPPORTS_WITH_FPU=y
-CT_ARCH_SUPPORTS_SOFTFP=y
-CT_ARCH_EXCLUSIVE_WITH_CPU=y
-CT_ARCH_FPU=""
-# CT_ARCH_FLOAT_AUTO is not set
-# CT_ARCH_FLOAT_HW is not set
-# CT_ARCH_FLOAT_SOFTFP is not set
-CT_ARCH_FLOAT_SW=y
-CT_TARGET_CFLAGS=""
+CT_TARGET_CFLAGS="-Os"
 CT_TARGET_LDFLAGS=""
-CT_ARCH_FLOAT="soft"
 # end of Target options
 
 #
@@ -228,7 +201,7 @@ CT_TOOLCHAIN_BUGURL=""
 #
 # Tuple completion and aliasing
 #
-CT_TARGET_VENDOR="lugnut"
+CT_TARGET_VENDOR="unknown"
 CT_TARGET_ALIAS_SED_EXPR=""
 CT_TARGET_ALIAS=""
 
@@ -250,7 +223,7 @@ CT_BUILD_SUFFIX=""
 # Misc options
 #
 # CT_TOOLCHAIN_ENABLE_NLS is not set
-CT_TOOLCHAIN_CMAKE_TOOLCHAIN_FILE=y
+# CT_TOOLCHAIN_CMAKE_TOOLCHAIN_FILE is not set
 # end of Toolchain options
 
 #
@@ -274,13 +247,13 @@ CT_LINUX_SRC_RELEASE=y
 CT_LINUX_PATCH_ORDER="global"
 # CT_LINUX_V_7_1 is not set
 # CT_LINUX_V_7_0 is not set
-# CT_LINUX_V_6_18 is not set
+CT_LINUX_V_6_18=y
 # CT_LINUX_V_6_17 is not set
 # CT_LINUX_V_6_16 is not set
 # CT_LINUX_V_6_15 is not set
 # CT_LINUX_V_6_14 is not set
 # CT_LINUX_V_6_13 is not set
-CT_LINUX_V_6_12=y
+# CT_LINUX_V_6_12 is not set
 # CT_LINUX_V_6_11 is not set
 # CT_LINUX_V_6_10 is not set
 # CT_LINUX_V_6_9 is not set
@@ -322,7 +295,7 @@ CT_LINUX_V_6_12=y
 # CT_LINUX_V_3_4 is not set
 # CT_LINUX_V_3_2 is not set
 # CT_LINUX_V_2_6_32 is not set
-CT_LINUX_VERSION="6.12.93"
+CT_LINUX_VERSION="6.18.35"
 CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
 CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -377,8 +350,8 @@ CT_BINUTILS_PKG_NAME="binutils"
 CT_BINUTILS_SRC_RELEASE=y
 # CT_BINUTILS_SRC_DEVEL is not set
 CT_BINUTILS_PATCH_ORDER="global"
-# CT_BINUTILS_V_2_47 is not set
-CT_BINUTILS_V_2_46=y
+CT_BINUTILS_V_2_47=y
+# CT_BINUTILS_V_2_46 is not set
 # CT_BINUTILS_V_2_45 is not set
 # CT_BINUTILS_V_2_44 is not set
 # CT_BINUTILS_V_2_43 is not set
@@ -399,14 +372,14 @@ CT_BINUTILS_V_2_46=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.46.1"
+CT_BINUTILS_VERSION="2.47"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_2_47_or_later=y
 CT_BINUTILS_2_47_or_older=y
-CT_BINUTILS_older_than_2_47=y
 CT_BINUTILS_later_than_2_46_0=y
 CT_BINUTILS_2_46_0_or_later=y
 CT_BINUTILS_later_than_2_45=y
@@ -427,12 +400,11 @@ CT_BINUTILS_2_26_or_later=y
 #
 # GNU binutils
 #
-CT_BINUTILS_GOLD_SUPPORTS_ARCH=y
 CT_BINUTILS_LINKER_LD=y
 CT_BINUTILS_LINKERS_LIST="ld"
 CT_BINUTILS_LINKER_DEFAULT="bfd"
-CT_BINUTILS_PLUGINS=y
-CT_BINUTILS_RELRO=m
+# CT_BINUTILS_PLUGINS is not set
+# CT_BINUTILS_RELRO is not set
 CT_BINUTILS_DETERMINISTIC_ARCHIVES=y
 CT_BINUTILS_EXTRA_CONFIG_ARRAY=""
 # CT_BINUTILS_FOR_TARGET is not set
@@ -444,59 +416,75 @@ CT_ALL_BINUTILS_CHOICES="BINUTILS"
 # C-library
 #
 # CT_LIBC_GLIBC is not set
-CT_LIBC_MUSL=y
-# CT_LIBC_UCLIBC_NG is not set
-CT_LIBC="musl"
-CT_LIBC_CHOICE_KSYM="MUSL"
-CT_THREADS="musl"
-CT_LIBC_MUSL_SHOW=y
+# CT_LIBC_MUSL is not set
+CT_LIBC_UCLIBC_NG=y
+CT_LIBC="uClibc-ng"
+CT_LIBC_CHOICE_KSYM="UCLIBC_NG"
+CT_THREADS="none"
+CT_LIBC_UCLIBC_NG_SHOW=y
 
 #
-# Options for musl
+# Options for uClibc-ng
 #
-CT_LIBC_MUSL_PKG_KSYM="MUSL"
-CT_MUSL_DIR_NAME="musl"
-CT_MUSL_PKG_NAME="musl"
-CT_MUSL_SRC_RELEASE=y
-# CT_MUSL_SRC_DEVEL is not set
-CT_MUSL_PATCH_ORDER="global"
-CT_MUSL_V_1_2_6=y
-# CT_MUSL_V_1_2_5 is not set
-# CT_MUSL_V_1_2_4 is not set
-# CT_MUSL_V_1_2_3 is not set
-# CT_MUSL_V_1_2_2 is not set
-# CT_MUSL_V_1_2_1 is not set
-# CT_MUSL_V_1_1_24 is not set
-# CT_MUSL_V_1_1_23 is not set
-# CT_MUSL_V_1_1_22 is not set
-# CT_MUSL_V_1_1_21 is not set
-# CT_MUSL_V_1_1_20 is not set
-# CT_MUSL_V_1_1_19 is not set
-# CT_MUSL_V_1_1_18 is not set
-# CT_MUSL_V_1_1_17 is not set
-# CT_MUSL_V_1_1_16 is not set
-CT_MUSL_VERSION="1.2.6"
-CT_MUSL_MIRRORS="https://www.musl-libc.org/releases https://sources.buildroot.net/musl/"
-CT_MUSL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
-CT_MUSL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
-CT_MUSL_ARCHIVE_FORMATS=".tar.gz"
-CT_MUSL_SIGNATURE_FORMAT="packed/.asc"
-# CT_LIBC_MUSL_DEBUG is not set
-# CT_LIBC_MUSL_WARNINGS is not set
-# CT_LIBC_MUSL_OPTIMIZE_NONE is not set
-# CT_LIBC_MUSL_OPTIMIZE_AUTO is not set
-# CT_LIBC_MUSL_OPTIMIZE_SPEED is not set
-CT_LIBC_MUSL_OPTIMIZE_SIZE=y
-CT_LIBC_MUSL_OPTIMIZE="size"
-CT_LIBC_MUSL_EXTRA_CFLAGS=""
+CT_LIBC_UCLIBC_NG_PKG_KSYM="UCLIBC_NG"
+CT_UCLIBC_NG_DIR_NAME="uClibc-ng"
+CT_UCLIBC_NG_PKG_NAME="uClibc-ng"
+CT_UCLIBC_NG_SRC_RELEASE=y
+# CT_UCLIBC_NG_SRC_DEVEL is not set
+CT_UCLIBC_NG_PATCH_ORDER="global"
+CT_UCLIBC_NG_V_1_0_54=y
+# CT_UCLIBC_NG_V_1_0_52 is not set
+# CT_UCLIBC_NG_V_1_0_50 is not set
+# CT_UCLIBC_NG_V_1_0_49 is not set
+# CT_UCLIBC_NG_V_1_0_48 is not set
+# CT_UCLIBC_NG_V_1_0_43 is not set
+# CT_UCLIBC_NG_V_1_0_42 is not set
+# CT_UCLIBC_NG_V_1_0_39 is not set
+# CT_UCLIBC_NG_V_1_0_38 is not set
+# CT_UCLIBC_NG_V_1_0_36 is not set
+# CT_UCLIBC_NG_V_1_0_33 is not set
+# CT_UCLIBC_NG_V_1_0_32 is not set
+# CT_UCLIBC_NG_V_1_0_31 is not set
+# CT_UCLIBC_NG_V_1_0_30 is not set
+# CT_UCLIBC_NG_V_1_0_29 is not set
+# CT_UCLIBC_NG_V_1_0_28 is not set
+# CT_UCLIBC_NG_V_1_0_27 is not set
+# CT_UCLIBC_NG_V_1_0_26 is not set
+# CT_UCLIBC_NG_V_1_0_25 is not set
+CT_UCLIBC_NG_VERSION="1.0.54"
+CT_UCLIBC_NG_MIRRORS="http://downloads.uclibc-ng.org/releases/${CT_UCLIBC_NG_VERSION} https://sources.buildroot.net/uclibc/"
+CT_UCLIBC_NG_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_UCLIBC_NG_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_UCLIBC_NG_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2 .tar.gz"
+CT_UCLIBC_NG_SIGNATURE_FORMAT="packed/.asc"
+CT_LIBC_UCLIBC_VERBOSITY_0=y
+# CT_LIBC_UCLIBC_VERBOSITY_1 is not set
+# CT_LIBC_UCLIBC_VERBOSITY_2 is not set
+CT_LIBC_UCLIBC_VERBOSITY=""
+CT_LIBC_UCLIBC_DEBUG_LEVEL_0=y
+# CT_LIBC_UCLIBC_DEBUG_LEVEL_1 is not set
+# CT_LIBC_UCLIBC_DEBUG_LEVEL_2 is not set
+# CT_LIBC_UCLIBC_DEBUG_LEVEL_3 is not set
+CT_LIBC_UCLIBC_DEBUG_LEVEL=0
+CT_LIBC_UCLIBC_CONFIG_FILE=""
+# CT_LIBC_UCLIBC_LOCALES is not set
+# CT_LIBC_UCLIBC_LIBICONV is not set
+# CT_LIBC_UCLIBC_IPV6 is not set
+# CT_LIBC_UCLIBC_WCHAR is not set
+# CT_LIBC_UCLIBC_FENV is not set
+# CT_LIBC_UCLIBC_HAS_SSP is not set
 CT_ALL_LIBC_CHOICES="AVR_LIBC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE PICOLIBC UCLIBC_NG"
 CT_LIBC_SUPPORT_THREADS_ANY=y
 CT_LIBC_SUPPORT_THREADS_NATIVE=y
+CT_LIBC_SUPPORT_THREADS_LT=y
+CT_LIBC_SUPPORT_THREADS_NONE=y
 
 #
 # Common C library options
 #
-CT_THREADS_NATIVE=y
+# CT_THREADS_NATIVE is not set
+# CT_THREADS_LT is not set
+CT_THREADS_NONE=y
 # CT_CREATE_LDSO_CONF is not set
 CT_LIBC_XLDD=y
 # end of C-library
@@ -530,8 +518,8 @@ CT_GCC_PKG_NAME="gcc"
 CT_GCC_SRC_RELEASE=y
 # CT_GCC_SRC_DEVEL is not set
 CT_GCC_PATCH_ORDER="global"
-# CT_GCC_V_16 is not set
-CT_GCC_V_15=y
+CT_GCC_V_16=y
+# CT_GCC_V_15 is not set
 # CT_GCC_V_14 is not set
 # CT_GCC_V_13 is not set
 # CT_GCC_V_12 is not set
@@ -543,14 +531,14 @@ CT_GCC_V_15=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="15.3.0"
+CT_GCC_VERSION="16.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
-CT_GCC_16_or_older=y
-CT_GCC_older_than_16=y
+CT_GCC_later_than_16=y
+CT_GCC_16_or_later=y
 CT_GCC_later_than_15=y
 CT_GCC_15_or_later=y
 CT_GCC_later_than_14=y
@@ -575,7 +563,6 @@ CT_GCC_later_than_5=y
 CT_GCC_5_or_later=y
 CT_GCC_later_than_4_9=y
 CT_GCC_4_9_or_later=y
-CT_CC_GCC_ENABLE_PLUGINS=y
 CT_CC_GCC_HAS_LIBMPX=y
 CT_CC_GCC_ENABLE_CXX_FLAGS=""
 CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY=""
@@ -587,7 +574,7 @@ CT_CC_GCC_CONFIG_TLS=m
 #
 # Optimisation features
 #
-CT_CC_GCC_USE_GRAPHITE=y
+# CT_CC_GCC_USE_GRAPHITE is not set
 # CT_CC_GCC_USE_LTO is not set
 
 #
@@ -595,14 +582,10 @@ CT_CC_GCC_USE_GRAPHITE=y
 #
 # CT_CC_GCC_ENABLE_DEFAULT_PIE is not set
 CT_CC_GCC_ENABLE_TARGET_OPTSPACE=y
-CT_CC_GCC_LIBSTDCXX=m
-# CT_CC_GCC_LIBSTDCXX_HOSTED_DISABLE is not set
 CT_CC_GCC_LIBSTDCXX_TARGET_CXXFLAGS=""
 # CT_CC_GCC_LIBMUDFLAP is not set
-# CT_CC_GCC_LIBGOMP is not set
 # CT_CC_GCC_LIBSSP is not set
 # CT_CC_GCC_LIBQUADMATH is not set
-# CT_CC_GCC_LIBSTDCXX_VERBOSE is not set
 
 #
 # Misc. obscure options.
@@ -611,13 +594,13 @@ CT_CC_CXA_ATEXIT=y
 CT_CC_GCC_TM_CLONE_REGISTRY=m
 # CT_CC_GCC_DISABLE_PCH is not set
 CT_CC_GCC_SJLJ_EXCEPTIONS=m
-# CT_CC_GCC_LDBL_128 is not set
+CT_CC_GCC_LDBL_128=m
 # CT_CC_GCC_BUILD_ID is not set
 # CT_CC_GCC_LNK_HASH_STYLE_DEFAULT is not set
-# CT_CC_GCC_LNK_HASH_STYLE_SYSV is not set
-CT_CC_GCC_LNK_HASH_STYLE_GNU=y
+CT_CC_GCC_LNK_HASH_STYLE_SYSV=y
+# CT_CC_GCC_LNK_HASH_STYLE_GNU is not set
 # CT_CC_GCC_LNK_HASH_STYLE_BOTH is not set
-CT_CC_GCC_LNK_HASH_STYLE="gnu"
+CT_CC_GCC_LNK_HASH_STYLE="sysv"
 # CT_CC_GCC_DEC_FLOATS_AUTO is not set
 # CT_CC_GCC_DEC_FLOATS_BID is not set
 # CT_CC_GCC_DEC_FLOATS_DPD is not set
@@ -628,7 +611,7 @@ CT_ALL_CC_CHOICES="GCC"
 #
 # Additional supported languages:
 #
-CT_CC_LANG_CXX=y
+# CT_CC_LANG_CXX is not set
 # CT_CC_LANG_FORTRAN is not set
 # end of C compiler
 
@@ -745,13 +728,11 @@ CT_ALL_COMP_LIBS_CHOICES="CLOOG EXPAT GETTEXT GMP GNUPRUMCU ISL LIBELF LIBICONV 
 # CT_GETTEXT_NEEDED is not set
 CT_GMP_NEEDED=y
 CT_MPFR_NEEDED=y
-CT_ISL_NEEDED=y
 CT_MPC_NEEDED=y
 # CT_ZLIB_NEEDED is not set
 # CT_ZSTD_NEEDED is not set
 CT_GMP=y
 CT_MPFR=y
-CT_ISL=y
 CT_MPC=y
 # end of Companion libraries
 
