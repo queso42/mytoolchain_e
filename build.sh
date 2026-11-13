@@ -152,30 +152,46 @@ export CT_PREFIX="$OUT"
 )
 
 # --------------------------------------------------
-# Detect triplet
+# Detect host dir and target dir
 # --------------------------------------------------
 
-mapfile -t TRIPLETS < <(find "$OUT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
-
-if [[ "${#TRIPLETS[@]}" -ne 1 ]]; then
-    echo "Expected exactly one toolchain in out/, found: ${TRIPLETS[*]:-none}" >&2
+mapfile -t HOSTDIRS < <(find "$OUT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+if [[ "${#HOSTDIRS[@]}" -ne 1 ]]; then
+    echo "Expected exactly one toolchain in out/, found: ${HOSTDIRS[*]:-none}" >&2
     exit 1
 fi
+TRIPLET="${HOSTDIRS[0]}"          # e.g. HOST-aarch64-linux-gnu (used for tarball name)
+HOST_ARCH="${TRIPLET#HOST-}"      # e.g. aarch64-linux-gnu
 
-TRIPLET="${TRIPLETS[0]}"
+mapfile -t TARGETS < <(find "$OUT/$TRIPLET" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+if [[ "${#TARGETS[@]}" -ne 1 ]]; then
+    echo "Expected exactly one target in out/$TRIPLET, found: ${TARGETS[*]:-none}" >&2
+    exit 1
+fi
+TARGET="${TARGETS[0]}"            # e.g. mips-linux-uclibc
 
-echo "Detected triplet: $TRIPLET"
+echo "Host dir : $TRIPLET"
+echo "Target   : $TARGET"
 
 # --------------------------------------------------
 # Smoke test
 # --------------------------------------------------
 
 echo "Smoke-testing toolchain..."
-GCC="$OUT/$TRIPLET/bin/$TRIPLET-gcc"
-"$GCC" --version | head -n1
-printf 'int main(void) { return 0; }\n' > "$WORK/smoke.c"
-"$GCC" -o "$WORK/smoke" "$WORK/smoke.c"
-test -s "$WORK/smoke"
+GCC="$OUT/$TRIPLET/$TARGET/bin/$TARGET-gcc"
+test -x "$GCC" || { echo "Missing compiler: $GCC" >&2; ls -la "$OUT/$TRIPLET/$TARGET/bin" >&2; exit 1; }
+
+# The compiler is a *host* binary: only run it if the runner can execute it.
+if [[ "$(uname -m)" == "${HOST_ARCH%%-*}" ]]; then
+    "$GCC" --version | head -n1
+    printf 'int main(void) { return 0; }\n' > "$WORK/smoke.c"
+    "$GCC" -o "$WORK/smoke" "$WORK/smoke.c"
+    test -s "$WORK/smoke"
+    file "$WORK/smoke"
+else
+    echo "Runner is $(uname -m), host is ${HOST_ARCH%%-*}: skipping execution, checking binary only"
+    file -L "$GCC"
+fi
 
 # --------------------------------------------------
 # Package
