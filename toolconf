@@ -216,9 +216,9 @@ CT_TARGET_ALIAS=""
 #
 # Toolchain type
 #
-CT_CROSS=y
-# CT_CANADIAN is not set
-CT_TOOLCHAIN_TYPE="cross"
+# CT_CROSS is not set
+CT_CANADIAN=y
+CT_TOOLCHAIN_TYPE="canadian"
 
 #
 # Build system
@@ -226,6 +226,13 @@ CT_TOOLCHAIN_TYPE="cross"
 CT_BUILD=""
 CT_BUILD_PREFIX=""
 CT_BUILD_SUFFIX=""
+
+#
+# Host system
+#
+CT_HOST="aarch64-linux-gnu"
+CT_HOST_PREFIX=""
+CT_HOST_SUFFIX=""
 
 #
 # Misc options
@@ -576,6 +583,7 @@ CT_CC_GCC_HAS_LIBMPX=y
 CT_CC_GCC_ENABLE_CXX_FLAGS=""
 CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY=""
 CT_CC_GCC_EXTRA_CONFIG_ARRAY=""
+CT_CC_GCC_STATIC_LIBSTDCXX=y
 # CT_CC_GCC_SYSTEM_ZLIB is not set
 CT_CC_GCC_CONFIG_TLS=m
 
