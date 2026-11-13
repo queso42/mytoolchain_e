@@ -58,27 +58,28 @@ echo "======================================"
 # Dependencies
 # --------------------------------------------------
 
+sudo apt-get install -y \
+    build-essential gcc g++ gperf bison flex texinfo help2man \
+    make libncurses-dev python3-dev autoconf automake libtool \
+    libtool-bin gawk wget curl bzip2 xz-utils unzip patch rsync \
+    meson ninja-build ca-certificates {gcc,g++,binutils}-aarch64-linux-gnu
+
 # On an arm64 host, require the aarch64-linux-gnu- compilers up front.
 # (Skipped on other hosts, e.g. x86_64 CI runners.)
 if [[ "$(uname -m)" =~ ^(aarch64|arm64)$ ]]; then
   missing=()
-  for tool in aarch64-linux-gnu-gcc aarch64-linux-gnu-g++ binutils-aarch64-linux-gnu; do
-    command -v "$tool" >/dev/null 2>&1 || missing+=("$tool")
+  for tool in gcc g++ ar as ld nm objcopy objdump ranlib strip; do
+    command -v "aarch64-linux-gnu-$tool" >/dev/null 2>&1 \
+      || missing+=("aarch64-linux-gnu-$tool")
   done
   if [[ "${#missing[@]}" -gt 0 ]]; then
     echo "Missing on arm64 host: ${missing[*]}" >&2
-    echo "Install with: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu" >&2
+    echo "Install with: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu" >&2
     exit 1
   fi
 fi
 
 sudo apt-get update
-
-sudo apt-get install -y \
-    build-essential gcc g++ gperf bison flex texinfo help2man \
-    make libncurses-dev python3-dev autoconf automake libtool \
-    libtool-bin gawk wget curl bzip2 xz-utils unzip patch rsync \
-    meson ninja-build ca-certificates
 
 # --------------------------------------------------
 # Build crosstool-NG
