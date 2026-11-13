@@ -62,7 +62,7 @@ echo "======================================"
 # (Skipped on other hosts, e.g. x86_64 CI runners.)
 if [[ "$(uname -m)" =~ ^(aarch64|arm64)$ ]]; then
   missing=()
-  for tool in aarch64-linux-gnu-gcc aarch64-linux-gnu-g++; do
+  for tool in aarch64-linux-gnu-gcc aarch64-linux-gnu-g++ binutils-aarch64-linux-gnu; do
     command -v "$tool" >/dev/null 2>&1 || missing+=("$tool")
   done
   if [[ "${#missing[@]}" -gt 0 ]]; then
