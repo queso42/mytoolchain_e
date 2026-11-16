@@ -156,32 +156,44 @@ export CT_PREFIX="$OUT"
 # --------------------------------------------------
 
 mapfile -t HOSTDIRS < <(find "$OUT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
-if [[ "${#HOSTDIRS[@]}" -ne 1 ]]; then
-    echo "Expected exactly one toolchain in out/, found: ${HOSTDIRS[*]:-none}" >&2
+# --------------------------------------------------
+# Detect layout
+# --------------------------------------------------
+
+mapfile -t DIRS < <(find "$OUT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+if [[ "${#DIRS[@]}" -ne 1 ]]; then
+    echo "Expected exactly one dir in out/, found: ${DIRS[*]:-none}" >&2
     exit 1
 fi
-TRIPLET="${HOSTDIRS[0]}"          # e.g. HOST-aarch64-linux-gnu (used for tarball name)
-HOST_ARCH="${TRIPLET#HOST-}"      # e.g. aarch64-linux-gnu
+TRIPLET="${DIRS[0]}"
 
-mapfile -t TARGETS < <(find "$OUT/$TRIPLET" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
-if [[ "${#TARGETS[@]}" -ne 1 ]]; then
-    echo "Expected exactly one target in out/$TRIPLET, found: ${TARGETS[*]:-none}" >&2
-    exit 1
+if [[ "$TRIPLET" == HOST-* ]]; then
+    # canadian: out/HOST-<host>/<target>/
+    HOST_ARCH="${TRIPLET#HOST-}"
+    mapfile -t TARGETS < <(find "$OUT/$TRIPLET" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+    if [[ "${#TARGETS[@]}" -ne 1 ]]; then
+        echo "Expected exactly one target in out/$TRIPLET, found: ${TARGETS[*]:-none}" >&2
+        exit 1
+    fi
+    TARGET="${TARGETS[0]}"
+    TCROOT="$OUT/$TRIPLET/$TARGET"
+else
+    # plain cross: out/<target>/, runs on this machine
+    HOST_ARCH="$(uname -m)"
+    TARGET="$TRIPLET"
+    TCROOT="$OUT/$TRIPLET"
 fi
-TARGET="${TARGETS[0]}"            # e.g. mips-linux-uclibc
 
-echo "Host dir : $TRIPLET"
-echo "Target   : $TARGET"
+echo "Layout root : $TCROOT"
+echo "Target      : $TARGET"
 
 # --------------------------------------------------
 # Smoke test
 # --------------------------------------------------
 
-echo "Smoke-testing toolchain..."
-GCC="$OUT/$TRIPLET/$TARGET/bin/$TARGET-gcc"
-test -x "$GCC" || { echo "Missing compiler: $GCC" >&2; ls -la "$OUT/$TRIPLET/$TARGET/bin" >&2; exit 1; }
+GCC="$TCROOT/bin/$TARGET-gcc"
+test -x "$GCC" || { echo "Missing compiler: $GCC" >&2; ls -la "$TCROOT/bin" >&2; exit 1; }
 
-# The compiler is a *host* binary: only run it if the runner can execute it.
 if [[ "$(uname -m)" == "${HOST_ARCH%%-*}" ]]; then
     "$GCC" --version | head -n1
     printf 'int main(void) { return 0; }\n' > "$WORK/smoke.c"
@@ -189,7 +201,7 @@ if [[ "$(uname -m)" == "${HOST_ARCH%%-*}" ]]; then
     test -s "$WORK/smoke"
     file "$WORK/smoke"
 else
-    echo "Runner is $(uname -m), host is ${HOST_ARCH%%-*}: skipping execution, checking binary only"
+    echo "Runner is $(uname -m), host is ${HOST_ARCH%%-*}: skipping execution"
     file -L "$GCC"
 fi
 
