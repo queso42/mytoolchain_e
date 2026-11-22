@@ -8,6 +8,7 @@ on:
     paths:
       - "build.sh"
       - "toolconf"
+      - "patches/**"
       - "tar_hard2sym.py"
       - ".github/workflows/toolchain.yml"
 
